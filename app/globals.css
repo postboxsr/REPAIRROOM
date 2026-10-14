@@ -7,3 +7,4 @@
 
 .brand-logo{display:block;width:240px;flex-shrink:0}.brand-logo img{display:block;width:100%;height:auto}.footer-logo img{filter:brightness(0) invert(1)}.dark .eyebrow{color:var(--paper)}:focus-visible{outline-color:#c92127}@media(max-width:800px){header .brand-logo{width:190px}.hero{padding-top:28px;gap:22px}.hero h1{margin:18px 0;font-size:44px}.hero .lead{font-size:18px;margin:14px 0}.hero .muted{font-size:13px;line-height:1.5}.hero-rule{display:none}}
 .brand-logo img{height:58px;object-fit:cover;object-position:center}@media(max-width:800px){header .brand-logo img{height:46px}.hero .muted{display:none}.hero h1{font-size:40px}.picker{padding:22px}.picker h2{margin-top:18px}}
+.hold-status{border-left:3px solid var(--accent);background:var(--paper);padding:18px;margin:24px 0}.hold-status p{margin:10px 0;font-size:13px}[data-testid=hold-countdown]{font-weight:700;font-variant-numeric:tabular-nums}

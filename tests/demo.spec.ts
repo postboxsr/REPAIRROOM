@@ -1,3 +1,4 @@
+import {localPool} from '../lib/booking/connection';
 import {test,expect} from '@playwright/test';
 test('guest booking, back navigation, simulated payment and cancellation',async({page})=>{
  await page.goto('/');await expect(page.getByRole('heading',{level:1})).toContainText('Dein Ölwechsel.');
@@ -34,4 +35,18 @@ test('all service and legal pages render, no horizontal overflow',async({page})=
  await page.goto('/');await page.getByText('Brauche ich ein Kundenkonto?',{exact:true}).click();await expect(page.getByText('Nein. Der geplante Ablauf ist eine Gastbuchung.',{exact:false})).toBeVisible();
  await page.locator('.workshop img').scrollIntoViewIfNeeded();await expect.poll(()=>page.locator('.workshop img').evaluate((el)=>(el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
  await page.screenshot({path:`test-results/home-${test.info().project.name}.png`,fullPage:true});
+});
+test('checkout hold resumes, keeps its deadline and can be released',async({page,request})=>{
+ await page.goto('/buchen');await page.selectOption('#car','compact');await page.locator('.slots button').nth(2).click();await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zur Demo-Zahlung'}).click();await expect(page.getByTestId('hold-countdown')).toBeVisible();
+ const token=await page.evaluate(()=>localStorage.getItem('rr-checkout'));const before=await (await request.post('/api/demo',{data:{action:'resume',token}})).json();
+ await page.reload();await expect(page.getByRole('heading',{name:'Online bezahlen – simuliert.'})).toBeVisible();const after=await (await request.post('/api/demo',{data:{action:'resume',token}})).json();expect(after.id).toBe(before.id);expect(after.expires).toBe(before.expires);
+ await page.getByRole('button',{name:'Zurück'}).click();await expect(page.getByRole('heading',{name:'Alles auf einen Blick.'})).toBeVisible();const released=await (await request.post('/api/demo',{data:{action:'resume',token}})).json();expect(released.status).toBe('cancelled');
+ const quote=await (await request.post('/api/demo',{data:{action:'quote',vehicle:'compact'}})).json();expect(quote.slots).toContain(before.slot);
+});
+test('checkout rejects expired confirmation and reclaims the slot',async({request})=>{
+ const quote=await (await request.post('/api/demo',{data:{action:'quote',vehicle:'compact'}})).json();const slot=quote.slots[2];const held=await (await request.post('/api/demo',{data:{action:'reserve',vehicle:'compact',slot,price:1}})).json();expect(held.price).toBe(12900);
+ if(process.env.REPAIRROOM_DEMO_STORAGE==='postgres'){const pool=await localPool('demo');try{await pool.query("UPDATE bookings SET hold_expires_at=clock_timestamp()-interval '1 second' WHERE id=$1",[held.id]);}finally{await pool.end();}}
+ else{const {readFile,writeFile}=await import('node:fs/promises');const file='.demo-data/'+held.token+'.hold.json';const stored=JSON.parse(await readFile(file,'utf8'));stored.expires=new Date(Date.now()-1000).toISOString();await writeFile(file,JSON.stringify(stored));}
+ const resumed=await (await request.post('/api/demo',{data:{action:'resume',token:held.token}})).json();expect(resumed.status).toBe('expired');expect((await request.post('/api/demo',{data:{action:'confirm',token:held.token}})).status()).toBe(400);
+ const available=await (await request.post('/api/demo',{data:{action:'quote',vehicle:'compact'}})).json();expect(available.slots).toContain(slot);
 });

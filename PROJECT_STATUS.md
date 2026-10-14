@@ -27,7 +27,7 @@ Stand: 14.10.2026. Etappe 2: transaktionale PostgreSQL-Entwicklungsgrundlage. Ke
 ## Offen / Grenzen
 - Keine Wiederherstellung der externen Docker-Volume-Daten in einer neuen Cloud-Aufgabe verifiziert. db:prepare kann neue Demo-/Testdatenbanken anlegen, garantiert keine alten Buchungen aus einem Snapshot.
 - Datenbankbenutzer ist lokal für Entwicklung und Migrationen privilegiert; eingeschränkter Live-Anwendungsnutzer, Backup-/Restore-Konzept und Löschfristen fehlen.
-- Die Oberfläche bestätigt Zahlung weiterhin sofort als Simulation; Reservierung beim Beginn eines echten Checkout, sichtbare Frist und Recovery gehören zur nächsten Etappe.
+- Die Oberfläche reserviert beim Einstieg in die Demo-Zahlung; Countdown und Wiederaufnahme sind implementiert. Echter Anbieter-Checkout und signierte Rückmeldungen fehlen weiterhin.
 - Keine signierten Zahlungsanbieter-Webhooks, kein realer Geldfluss, keine Erstattung, keine E-Mail. Keine personenbezogenen Kundendaten notwendig.
 - Realer Fahrzeugdatenanbieter inklusive Lizenz, Ölfreigaben, reale Preiskalkulation und Stationskapazität fehlen.
 - Original-Vektordatei/Schrift des SHOWROOM-Logos und finale eigene/lizenzierte Fotos, bestätigte Betreiberangaben, Standort, Öffnungszeiten, Kontakt und juristische Prüfung fehlen.
@@ -36,7 +36,7 @@ Stand: 14.10.2026. Etappe 2: transaktionale PostgreSQL-Entwicklungsgrundlage. Ke
 - Dateidemo bleibt nur ein lokaler Demonstrationsspeicher und darf nicht für Mehrinstanz-Livebetrieb verwendet werden.
 
 ## Nächster technisch sinnvoller Schritt
-Den Kunden-Checkout an eine echte Reservierung mit sichtbarer Frist binden und Recovery/Abbruch testen; anschließend eine ausdrücklich konfigurierte Payment-Sandbox mit signierten idempotenten Webhooks und E-Mail-Outbox integrieren. Fahrzeugdaten und reale Preise erst nach Anbieter-/Lizenzentscheidung anschließen. Keine Livefreigabe ohne betriebliche und rechtliche Bestätigung.
+Eine ausdrücklich konfigurierte Payment-Sandbox mit geprüften Anbieterereignissen und E-Mail-Outbox integrieren; der Demo-Checkout mit Frist und Wiederaufnahme ist umgesetzt. Fahrzeugdaten und reale Preise erst nach Anbieter-/Lizenzentscheidung anschließen. Keine Livefreigabe ohne betriebliche und rechtliche Bestätigung.
 
 Keine bezahlten Dienste, Domainregistrierung oder produktive Veröffentlichung durchgeführt. Ein lokaler Commit ist für die Quellcodeübergabe vorbereitet; Quellcode auf main hochgeladen. install_script und start_skill wurden erfolgreich im Cloud-Konfigurationsentwurf um PostgreSQL-Vorbereitung, sichere Neustartregeln und Start ergänzt; Veröffentlichung und neue Snapshot-Wiederherstellung sind separate, noch nicht verifizierte Schritte.
 
@@ -54,3 +54,8 @@ Die Nutzer-Rasterreferenz wurde geprüft. Eigenständiger REPAIRROOM-KI-Wortmark
 Nach Einbindung der SHOWROOM-verwandten Logo-/Farbgestaltung: normaler Next.js-Build erfolgreich, sechs Server-Dateidemo-Regressionstests bestanden; statischer Export erfolgreich, zehn Vorschauprüfungen bestanden einschließlich sichtbarer Fahrzeugauswahl im ersten Smartphone-Bereich und geladenem Wortmarkenbild.
 
 Kostenlose Browser-Testadresse bereitgestellt: https://postboxsr.github.io/REPAIRROOM/. Keine manuelle GitHub-Pages-Aktivierung erforderlich. Quellcode und Markenentwurf auf main, geprüfte statische Oberfläche auf gh-pages. Kein Hostingzugang, keine lokale Mac-Installation oder Domainregistrierung für den Nutzer nötig. Netzwerkfreigaben/install_script/start_skill als Cloud-Entwurf gespeichert; Aktualisierung/Veröffentlichung des Cloud-Snapshots noch separat.
+
+## Etappe 3 – Reservierung und Wiederaufnahme
+Frontend mit sichtbarer Ablaufzeit, Wiederaufnahme einer offenen Reservierung im selben Browser nach Reload/Schließen, unverändertem Fristende, fixiertem Reservierungspreis und bewusster Freigabe beim Zurückgehen. Abgelaufene Fenster können nicht bestätigt werden; die Fahrzeugauswahl bleibt für die neue Terminwahl erhalten. Neue Demo-API-Aktionen reserve/resume/release/confirm, Anbindung an das PostgreSQL-Repository und isolierte lokale Dateireservierungen. Browser-Vorschau bildet die Funktionen ausdrücklich nur im lokalen Browserspeicher nach. Keine echte Zahlung oder E-Mail angebunden. Typprüfung, normaler Build und statischer Export erfolgreich; Browser-Prüfungen für Fristablauf und Wiederaufnahme ergänzt.
+
+Etappe-3-Prüfungen abgeschlossen: 14/14 Browser-Vorschauprüfungen, 10/10 Server-Dateidemo-Prüfungen, 10/10 PostgreSQL-Oberflächen-/API-Prüfungen sowie 16/16 PostgreSQL-Integrationstests bestanden (50 gesamt, keine übersprungen). Beide Builds und Typprüfung erfolgreich. Die Wiederaufnahme prüft dieselbe Reservierungs-ID und dasselbe Fristende; Ablauf verhindert Bestätigung und gibt das Fenster frei. Anfangs mussten ausschließlich Testsynchronisierung und ein Playwright-Import korrigiert werden; die finalen vollständigen Läufe sind erfolgreich.

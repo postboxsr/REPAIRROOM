@@ -10,7 +10,7 @@ export async function demoVehicles(){assertDemo();return usePostgres()?postgresO
 export async function quote(id:string){assertDemo();return usePostgres()?postgresQuote(id):{price:vehicle(id).price,slots:await slots()};}
 export type Booking={id:string;token:string;vehicle:string;slot:string;price:number;status:'confirmed'|'cancelled';payment:'simulated';created:string};
 export function vehicle(id:string){const v=vehicles.find(v=>v.id===id);if(!v)throw new Error('Bitte ein unterstütztes Demo-Fahrzeug wählen.');return v;}
-export async function slots(){assertDemo();if(usePostgres())return postgresSlots();await mkdir(root,{recursive:true});const now=Date.now(); const out:string[]=[];
+export async function slots(skipCleanup=false){assertDemo();if(usePostgres())return postgresSlots();if(!skipCleanup)await (await import('./checkout')).cleanupFileHolds();await mkdir(root,{recursive:true});const now=Date.now(); const out:string[]=[];
  for(let day=0;day<7;day++){const d=new Date(now+day*86400000);d.setUTCMinutes(0,0,0);for(let h=9;h<17;h++){d.setUTCHours(h);if(d.getTime()>now){const s=d.toISOString();try{await readFile(path.join(root,encodeURIComponent(s)+'.slot'));}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')out.push(s);else throw e;}}}}return out;}
 export async function book(vehicleId:string,slot:string){assertDemo();if(usePostgres())return postgresBook(vehicleId,slot);const v=vehicle(vehicleId);if(!(await slots()).includes(slot))throw new Error('Dieses Demo-Zeitfenster ist nicht mehr verfügbar. Bitte neu wählen.');
  const b:Booking={id:randomUUID(),token:randomUUID(),vehicle:v.name,slot,price:v.price,status:'confirmed',payment:'simulated',created:new Date().toISOString()};

@@ -10,7 +10,7 @@ Sie ist ausdrücklich eine Browser-Demo: Testbuchungen liegen nur im Local Stora
 npm run build:preview
 CI=1 npm run test:preview
 ```
-Das Build-Skript erzeugt eine temporäre Kopie aus einer Dateiallowlist, ersetzt nur dort die API durch den gekennzeichneten Browser-Demoadapter und exportiert nach .preview-output. Normale App-Dateien bleiben unverändert. Bilder, Links und CSS berücksichtigen /REPAIRROOM. Kein Upload von Zugangskonfiguration, Laufzeitdaten oder node_modules. Zehn Desktop-/Mobile-Prüfungen decken Gastablauf, Browserisolation, Verwaltung, Stornierung, Unterpfad und statische Auslieferung ab.
+Das Build-Skript erzeugt eine temporäre Kopie aus einer Dateiallowlist, ersetzt nur dort die API durch den gekennzeichneten Browser-Demoadapter und exportiert nach .preview-output. Normale App-Dateien bleiben unverändert. Bilder, Links und CSS berücksichtigen /REPAIRROOM. Kein Upload von Zugangskonfiguration, Laufzeitdaten oder node_modules. Vierzehn Desktop-/Mobile-Prüfungen decken Gastablauf, Browserisolation, Verwaltung, Stornierung, Unterpfad und statische Auslieferung ab.
 
 GitHub-Aktivierung bei Bedarf: Repository Settings → Pages → Source „Deploy from a branch“ → Branch gh-pages → /(root) → Save. Keine eigene Domain oder kostenpflichtiges Hosting erforderlich. Source-main enthält den vollständigen Code, gh-pages nur die exportierte Testoberfläche.
 
@@ -55,7 +55,7 @@ Der Server lädt Preis, Fahrzeug-Snapshot, Dauer und erlaubte Fenster aus dem De
 
 Reservierungen erhalten eine serverseitige Zahlungsfrist von höchstens zehn Minuten, die spätestens zum Beginn des Servicefensters endet. Es gibt keine künstliche Vorlaufgrenze: ein noch nicht begonnenes, geeignetes Fenster ist auch unmittelbar online buchbar. Verfügbarkeit und Bestätigung verwenden die Datenbankuhr auch nach Sperrwartezeiten. Abgelaufene Holds sind sofort wieder verfügbar; beim nächsten Reservierungsversuch wird der alte Zustand samt Auditereignis dauerhaft auf expired gesetzt. Es ist derzeit kein periodischer Cleanup-Dienst nötig oder vorhanden.
 
-Die Oberfläche reserviert beim Bestätigen der Testbuchung und bestätigt anschließend sofort eine simulierte Zahlung. Die zehn Minuten sind noch kein echter Kunden-Checkout und werden nicht als Live-Zahlungsfunktion präsentiert. Späterer Payment-Checkout muss die Reservierung früher anlegen und die Frist sichtbar machen.
+Die Oberfläche reserviert jetzt beim Einstieg in die Zahlungsstufe. Ein Countdown zeigt die verbleibende Frist; Neuladen oder Schließen verlängert sie nicht. Der zufällige Reservierungstoken liegt im Local Storage, sodass derselbe Browser eine offene Reservierung wieder aufnehmen kann. Zurückgehen gibt das Testfenster frei, Ablauf verhindert die Bestätigung und führt zur neuen Terminauswahl. Der angezeigte Preis bleibt der gespeicherte Reservierungspreis. Erst die ausdrückliche Demo-Zahlungsbestätigung schließt die Testbuchung ab. Keine Karten- oder Kontodaten werden abgefragt; kein echter Zahlungsanbieter angeschlossen.
 
 Wiederholte identische Simulationsereignisse sind idempotent; Betrag, Währung, Buchungszuordnung und Reservierungszustand werden geprüft. Ein abgelaufener oder stornierter Hold wird nicht wiederbelebt. Simulationsereignisse sind keine signierten Anbieter-Webhooks. Bestätigte Demo-Buchungen lassen sich ohne realen Erstattungsfluss stornieren; ein Live-Refund-Modell fehlt.
 
@@ -72,7 +72,7 @@ CI=1 REPAIRROOM_DEMO_STORAGE=file npm test
 ```
 16 echte PostgreSQL-Integrationstests: Transaktionen, 20 konkurrierende Reservierungen, Ablauf einschließlich Sperrwartezeit, idempotente Simulationsereignisse, konkurrierende Ereigniszuordnung mit Rollback, Stornierung und Token-Hashing. Der Testlauf überprüft ausdrücklich repairroom_test und leert ausschließlich diese Fixture-Tabellen; niemals Demo-Daten. Wiederholte Migrationen werden serialisiert und per Checksum geprüft. Angewandte Migrationsdateien nicht verändern; Folgeänderungen als neue Migration hinzufügen.
 
-Je sechs Playwright-Prüfungen mit PostgreSQL bzw. Dateispeicher, auf Desktop und Pixel-7-Ansicht: kompletter Gastablauf, Zurücknavigation, Bestätigung nach Reload, Stornierung, serverseitige Preise, Konkurrenz und alle Seiten ohne horizontalen Überlauf. Chromium-Ansichten ersetzen keinen echten Geräte-/Safari-Test oder vollständigen Accessibility-Audit. Screenshots in test-results.
+Je zehn Playwright-Prüfungen mit PostgreSQL bzw. Dateispeicher, auf Desktop und Pixel-7-Ansicht: kompletter Gastablauf, Zurücknavigation, Bestätigung nach Reload, Stornierung, serverseitige Preise, Konkurrenz und alle Seiten ohne horizontalen Überlauf. Chromium-Ansichten ersetzen keinen echten Geräte-/Safari-Test oder vollständigen Accessibility-Audit. Screenshots in test-results.
 
 Playwright benötigt standardmäßig freien Port 3000 und startet den gebauten Server selbst. Nur bewusst mit unverändertem Build kann REPAIRROOM_REUSE_SERVER=1 einen Server wiederverwenden, niemals in CI. Vor Neubauten eigene Server einschließlich Kindprozessen stoppen und danach frisch starten. Fremde Prozesse nicht beenden. Browserpfad standardmäßig /usr/bin/chromium; alternativ PLAYWRIGHT_CHROMIUM_EXECUTABLE.
 
@@ -103,3 +103,5 @@ public/repairroom-logo-draft.png wurde mit dem OpenAI-Bildgenerator als eigenst�
 public/workshop-concept.png wurde am 14.10.2026 mit dem OpenAI-Bildgenerator aus eigener Beschreibung erzeugt. Es ist im Bildtext und Alternativtext als KI-Designstudie gekennzeichnet, zeigt keinen echten REPAIRROOM-Standort und ersetzt keine bestätigte Standortfotografie. Finale eigene oder nachweisbar lizenzierte Fahrzeug- und Werkstattfotos bleiben offen.
 
 Siehe REQUIREMENTS.md für den vollständigen Auftrag und PROJECT_STATUS.md für Ergebnisse und nächste Schritte.
+
+Checkout-API (nur Demo-Modus): POST /api/demo mit reserve/resume/release/confirm. PostgreSQL nutzt das transaktionale Repository, Token-Hashing und idempotente Simulationsereignisse; die lokale Dateidemo verwendet eigene .hold.json-Dateien und eine Prozesswarteschlange. Dateidemo ist weiterhin nicht für Mehrinstanz-Livebetrieb geeignet. Der statische Export bildet denselben Bedienablauf im Browser nach, ohne serverseitige Garantie. Eine echte Zahlungsintegration muss bestätigte Anbieterereignisse prüfen und eine getrennte Erstattungs-/Abbruchregel erhalten.

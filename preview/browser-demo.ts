@@ -8,7 +8,10 @@ export type Booking = {
   vehicle: string;
   slot: string;
   price: number;
-  status: 'confirmed' | 'cancelled';
+  status: 'pending_payment' | 'confirmed' | 'cancelled' | 'expired';
+  expires?: string;
+  vehicleId?: string;
+  serverTime?: string;
   payment: 'simulated';
   created: string;
 };
@@ -37,6 +40,7 @@ function readState(): State {
     if (state.version !== 1 || !Array.isArray(state.bookings) || !state.bookings.every(isBooking)) {
       throw Error('Invalid demo storage');
     }
+    for(const b of state.bookings)if(b.status==='pending_payment'&&Date.parse(b.expires!)<=Date.now())b.status='expired';
     return state;
   } catch {
     throw Error('Der lokale Demo-Speicher ist ungültig. Lösche die Websitedaten dieser Browser-Demo und starte erneut.');
@@ -50,7 +54,7 @@ function isBooking(value: Booking): boolean {
     typeof value.vehicle === 'string' &&
     vehicles.some(vehicle => vehicle.name === value.vehicle && vehicle.price === value.price) &&
     typeof value.slot === 'string' && Number.isFinite(Date.parse(value.slot)) &&
-    (value.status === 'confirmed' || value.status === 'cancelled') &&
+    (['pending_payment','confirmed','cancelled','expired'].includes(value.status)) && (value.status!=='pending_payment'||(typeof value.expires==='string'&&Number.isFinite(Date.parse(value.expires)))) &&
     value.payment === 'simulated' &&
     typeof value.created === 'string' && Number.isFinite(Date.parse(value.created));
 }
@@ -64,7 +68,7 @@ function writeState(state: State) {
 }
 
 function availableSlots(state: State, now = Date.now()): string[] {
-  const booked = new Set(state.bookings.filter(booking => booking.status === 'confirmed').map(booking => booking.slot));
+  const booked = new Set(state.bookings.filter(booking => (booking.status === 'confirmed'||(booking.status==='pending_payment'&&Date.parse(booking.expires!)>now))).map(booking => booking.slot));
   const slots: string[] = [];
   for (let day = 0; day < 7; day++) {
     const date = new Date(now);
@@ -121,7 +125,7 @@ export async function browserDemo(input: string, init?: RequestInit): Promise<Re
     if (!init || !init.method || init.method === 'GET') {
       const state = readState();
       const token = url.searchParams.get('token');
-      return response(token ? getBooking(state, token) : { vehicles, slots: availableSlots(state) });
+      if(token){const b=getBooking(state,token);if(b.status==='pending_payment'||b.status==='expired')throw Error('Diese Reservierung ist noch nicht bestätigt. Setze sie im Buchungsprozess fort.');return response(b);}return response({vehicles,slots:availableSlots(state)});
     }
     if (init.method !== 'POST' || typeof init.body !== 'string') throw Error('Ungültige Browser-Demo-Anfrage.');
     const body: Record<string, unknown> = JSON.parse(init.body);
@@ -130,7 +134,9 @@ export async function browserDemo(input: string, init?: RequestInit): Promise<Re
       const vehicle = getVehicle(body.vehicle);
       return response({ price: vehicle.price, slots: availableSlots(readState()) });
     }
-    if (body.action === 'book') {
+    if (body.action === 'resume') { const b=getBooking(readState(),body.token);return response({...b,vehicleId:b.vehicleId||vehicles.find(v=>v.name===b.vehicle)?.id,serverTime:new Date().toISOString()});}
+    if (body.action === 'confirm'||body.action==='release')return await mutate(()=>{const state=readState();const b=getBooking(state,body.token);if(body.action==='confirm'){if(b.status!=='confirmed'&&b.status!=='pending_payment')throw Error('Reservierung abgelaufen oder beendet. Bitte neu wählen.');b.status='confirmed';}else if(b.status==='pending_payment')b.status='cancelled';writeState(state);return response({...b,serverTime:new Date().toISOString()});});
+    if (body.action === 'book'||body.action==='reserve') {
       return await mutate(() => {
         const vehicle = getVehicle(body.vehicle);
         const state = readState();
@@ -139,7 +145,7 @@ export async function browserDemo(input: string, init?: RequestInit): Promise<Re
         }
         const booking: Booking = {
           id: secureId(), token: secureId(), vehicle: vehicle.name, slot: body.slot,
-          price: vehicle.price, status: 'confirmed', payment: 'simulated', created: new Date().toISOString(),
+          price: vehicle.price,vehicleId:vehicle.id,expires:new Date(Math.min(Date.now()+600000,Date.parse(body.slot))).toISOString(),serverTime:new Date().toISOString(), status:body.action==='reserve'?'pending_payment':'confirmed', payment: 'simulated', created: new Date().toISOString(),
         };
         state.bookings.push(booking);
         writeState(state);

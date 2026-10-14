@@ -41,3 +41,17 @@ test('management token links remain scoped to this browser',async({page,browser}
 test('static deployment contains no booking API or development credential files',async({request})=>{
  for(const url of ['api/demo','api/demo/','.postgres/local.json','.env.local','.env','.git/config','../../package.json'])expect((await request.get('http://127.0.0.1:4173/REPAIRROOM/'+url)).status()).toBe(404);
 });
+test('pending reservation resumes after reload and backing out releases the window',async({page})=>{
+ const slot=await prepare(page);await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zur Demo-Zahlung'}).click();
+ await expect(page.getByTestId('hold-countdown')).toHaveText(/\d+:\d{2}/);const token=await page.evaluate(()=>localStorage.getItem('rr-preview-checkout'));expect(token).toBeTruthy();
+ await page.reload();await expect(page.getByRole('heading',{name:'Online bezahlen – simuliert.'})).toBeVisible();await expect(page.locator('dd').filter({hasText:slot})).toBeVisible();
+ expect(await page.evaluate(()=>localStorage.getItem('rr-preview-checkout'))).toBe(token);
+ await page.getByRole('button',{name:'Zurück'}).click();await page.getByRole('button',{name:'Zurück'}).click();await expect(page.getByRole('button',{name:slot,exact:true})).toBeVisible();expect(await page.evaluate(()=>localStorage.getItem('rr-preview-checkout'))).toBeNull();
+});
+test('expired browser reservation cannot be paid and a new window can be selected',async({page})=>{
+ await prepare(page);await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zur Demo-Zahlung'}).click();
+ await expect(page.getByTestId('hold-countdown')).toBeVisible();
+ await page.evaluate(()=>{const state=JSON.parse(localStorage.getItem('repairroom-browser-demo-v1')!);const token=localStorage.getItem('rr-preview-checkout');state.bookings.find((b:{token:string})=>b.token===token).expires=new Date(Date.now()-1000).toISOString();localStorage.setItem('repairroom-browser-demo-v1',JSON.stringify(state));});
+ await page.reload();await expect(page.getByText('Reservierungsfrist abgelaufen.',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Demo-Zahlung & Testbuchung bestätigen'})).toHaveCount(0);
+ await page.getByRole('button',{name:'Neues Zeitfenster wählen'}).click();await expect(page.locator('#car')).toHaveValue('compact');await expect(page.locator('.slots button').first()).toBeVisible();
+});

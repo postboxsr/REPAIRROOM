@@ -56,7 +56,7 @@ try {
   await transform('components/BookingFlow.tsx', [
     ["import {useEffect,useState} from 'react';", "import {useEffect,useState} from 'react';import {browserDemo} from '../lib/browser-demo';"],
     ["fetch('/api/demo'", "browserDemo('/api/demo'"],
-    ['rr-vehicle', 'rr-preview-vehicle'], ['rr-slot', 'rr-preview-slot'], ['rr-token', 'rr-preview-token'],
+    ['rr-vehicle', 'rr-preview-vehicle'], ['rr-slot', 'rr-preview-slot'], ['rr-token', 'rr-preview-token'], ['rr-checkout','rr-preview-checkout'],
     ['Keine reale Reservierung, kein Geldfluss. Bitte keine persönlichen Daten eingeben.', 'Browser-Demo: Testbuchungen werden nur in diesem Browser gespeichert. Keine reale Reservierung, kein Geldfluss. Bitte keine persönlichen Daten eingeben.'],
   ]);
   await transform('components/ManageBooking.tsx', [
