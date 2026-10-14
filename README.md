@@ -2,7 +2,7 @@
 Eigenständige deutsche Automotive-Service-Anwendung mit Next.js, React und TypeScript. Ausschließlich Testfahrzeuge, Testpreise und simulierte Zahlung; kein Livebetrieb.
 
 ## Kostenlose Browser-Testumgebung
-Die separate GitHub-Pages-Vorschau wird aus dem geprüften Quellcode auf dem Branch gh-pages bereitgestellt. Zieladresse: https://postboxsr.github.io/REPAIRROOM/ (erst nach Aktivierung von Pages erreichbar).
+Die separate GitHub-Pages-Vorschau wird aus dem geprüften Quellcode auf dem Branch gh-pages bereitgestellt. Öffentliche Testadresse: https://postboxsr.github.io/REPAIRROOM/. GitHub Pages wurde automatisch aktiviert; die Bereitstellung des getesteten Artefakts 95e9707 ist erfolgreich (Run 38588695308). Der direkte HTTP-Abruf aus dieser Cloud ist durch die aktuelle Netzwerkpolicy blockiert; ein Live-Browsertest von hier wurde deshalb nicht behauptet.
 
 Sie ist ausdrücklich eine Browser-Demo: Testbuchungen liegen nur im Local Storage dieses Browsers. Der Verwaltungslink funktioniert im selben Browser; andere Besucher haben eigene Testkalender. So lassen sich Gestaltung und Benutzerführung ohne Mac-Installation prüfen. Die Vorschau enthält keine API und keine PostgreSQL-Verbindung und beweist keine serverseitige Reservierungs- oder Zahlungsfunktion. Die normale Next.js-/PostgreSQL-Anwendung bleibt erhalten.
 
