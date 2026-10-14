@@ -1,6 +1,19 @@
 # REPAIRROOM – Entwicklungsdemo mit PostgreSQL
 Eigenständige deutsche Automotive-Service-Anwendung mit Next.js, React und TypeScript. Ausschließlich Testfahrzeuge, Testpreise und simulierte Zahlung; kein Livebetrieb.
 
+## Kostenlose Browser-Testumgebung
+Die separate GitHub-Pages-Vorschau wird aus dem geprüften Quellcode auf dem Branch gh-pages bereitgestellt. Zieladresse: https://postboxsr.github.io/REPAIRROOM/ (erst nach Aktivierung von Pages erreichbar).
+
+Sie ist ausdrücklich eine Browser-Demo: Testbuchungen liegen nur im Local Storage dieses Browsers. Der Verwaltungslink funktioniert im selben Browser; andere Besucher haben eigene Testkalender. So lassen sich Gestaltung und Benutzerführung ohne Mac-Installation prüfen. Die Vorschau enthält keine API und keine PostgreSQL-Verbindung und beweist keine serverseitige Reservierungs- oder Zahlungsfunktion. Die normale Next.js-/PostgreSQL-Anwendung bleibt erhalten.
+
+```sh
+npm run build:preview
+CI=1 npm run test:preview
+```
+Das Build-Skript erzeugt eine temporäre Kopie aus einer Dateiallowlist, ersetzt nur dort die API durch den gekennzeichneten Browser-Demoadapter und exportiert nach .preview-output. Normale App-Dateien bleiben unverändert. Bilder, Links und CSS berücksichtigen /REPAIRROOM. Kein Upload von Zugangskonfiguration, Laufzeitdaten oder node_modules. Zehn Desktop-/Mobile-Prüfungen decken Gastablauf, Browserisolation, Verwaltung, Stornierung, Unterpfad und statische Auslieferung ab.
+
+GitHub-Aktivierung bei Bedarf: Repository Settings → Pages → Source „Deploy from a branch“ → Branch gh-pages → /(root) → Save. Keine eigene Domain oder kostenpflichtiges Hosting erforderlich. Source-main enthält den vollständigen Code, gh-pages nur die exportierte Testoberfläche.
+
 ## Start auf dem eigenen Mac
 Die Befehle mit `/workspace` gelten für die Cloud-Maschine. Für den lokalen Mac-Start, Node.js/npm und das Quellcodepaket siehe [MAC_START.md](MAC_START.md). Die Dateidemo läuft ohne Docker.
 
@@ -83,6 +96,10 @@ Next.js 16.4.0, React 19.3.0, pg 8.23.1, tsx 4.23.15; Lockfile vorhanden. Die of
 - https://github.com/brianc/node-postgres/blob/master/docs/pages/features/transactions.mdx
 
 ## Medien und Marke
-SHOWROOM-Originaldatei nicht vorhanden. Die REPAIRROOM-Wortmarke ist ein eigenständiger vorläufiger typografischer Entwurf, keine originalgetreue Ableitung. Systemschrift Arial/Helvetica/sans-serif; keine heruntergeladenen Schriften, Markenlogos oder externen Tracking-/Medienanfragen. Eigene CSS-Linienstudie und public/workshop-concept.png als vorläufige Medien. Die Werkstattaufnahme wurde am 14.10.2026 mit dem OpenAI-Bildgenerator aus einer eigenen Beschreibung erzeugt (unmarkierter Sportwagen, Werkstattdetail, Graphit und warmes Licht). Sie ist im Bildtext und Alternativtext als KI-Designstudie gekennzeichnet, zeigt keinen echten REPAIRROOM-Standort und ersetzt keine bestätigte Standortfotografie. Finale eigene oder nachweisbar lizenzierte Fahrzeug- und Werkstattfotos bleiben offen.
+Die SHOWROOM-Rasterreferenz wurde vom Nutzer im Chat bereitgestellt und als gestalterische Referenz visuell geprüft. Sie bleibt unverändert und wird nicht als REPAIRROOM-Logo ausgegeben. Eine bearbeitbare Original-Vektordatei und die Originalschrift sind weiterhin nicht vorhanden.
+
+public/repairroom-logo-draft.png wurde mit dem OpenAI-Bildgenerator als eigenständiger, vorläufiger REPAIRROOM-Entwurf anhand dieser Referenz erzeugt: breite geometrische Wortmarke, verwandtes Rot und eigene Dachlinie. Es handelt sich um einen KI-Entwurf, keine originalgetreue Logoableitung oder final freigegebene Markenreinzeichnung. Header und Footer verwenden die neue Datei; das Farbsystem ist auf dunkles Rot, Graphit und warme helle Flächen abgestimmt. Keine fremden Logos oder heruntergeladenen Schriften verwendet; UI-Systemschrift Arial/Helvetica/sans-serif.
+
+public/workshop-concept.png wurde am 14.10.2026 mit dem OpenAI-Bildgenerator aus eigener Beschreibung erzeugt. Es ist im Bildtext und Alternativtext als KI-Designstudie gekennzeichnet, zeigt keinen echten REPAIRROOM-Standort und ersetzt keine bestätigte Standortfotografie. Finale eigene oder nachweisbar lizenzierte Fahrzeug- und Werkstattfotos bleiben offen.
 
 Siehe REQUIREMENTS.md für den vollständigen Auftrag und PROJECT_STATUS.md für Ergebnisse und nächste Schritte.

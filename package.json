@@ -16,7 +16,9 @@
     "test:db": "tsx --test tests/db/*.test.ts",
     "test:postgres": "REPAIRROOM_DEMO_STORAGE=postgres playwright test",
     "dev:postgres": "REPAIRROOM_MODE=demo REPAIRROOM_DEMO_STORAGE=postgres next dev --hostname 0.0.0.0",
-    "start:postgres": "REPAIRROOM_MODE=demo REPAIRROOM_DEMO_STORAGE=postgres next start --hostname 0.0.0.0"
+    "start:postgres": "REPAIRROOM_MODE=demo REPAIRROOM_DEMO_STORAGE=postgres next start --hostname 0.0.0.0",
+    "build:preview": "node scripts/build-preview.mjs",
+    "test:preview": "playwright test --config playwright.preview.config.ts"
   },
   "dependencies": {
     "next": "16.4.0",

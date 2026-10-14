@@ -1,5 +1,5 @@
 # REPAIRROOM auf Deinem Mac starten
-Die Cloud-Umgebung und Dein Mac sind zwei getrennte Rechner. `/workspace/REPAIRROOM` existiert in der Cloud und ist kein Ordner auf Deinem Mac. Der Quellcode muss separat in GitHub bereitgestellt werden. Solange dieser Upload noch nicht freigegeben und ausgeführt wurde, liefert das bislang leere Repository die Anwendung nicht.
+Die Cloud-Umgebung und Dein Mac sind zwei getrennte Rechner. `/workspace/REPAIRROOM` existiert in der Cloud und ist kein Ordner auf Deinem Mac. Der Quellcode wurde in https://github.com/postboxsr/REPAIRROOM auf main bereitgestellt. Für die Browser-Testumgebung brauchst Du keine Installation auf Deinem Mac; deren Bereitstellung und GitHub-Pages-Aktivierung sind in README.md beschrieben.
 
 ## 1. Node.js installieren
 Installiere Node.js **24 LTS** über den offiziellen macOS-Installer (.pkg):
@@ -14,7 +14,7 @@ npm --version
 Beide Befehle müssen eine Version anzeigen. Für diesen Weg ist kein Homebrew erforderlich.
 
 ## 2. Quellcode herunterladen
-Nach Bereitstellung auf dem Branch main öffne https://github.com/postboxsr/REPAIRROOM im Browser (bei einem privaten Repository mit Deinem GitHub-Konto anmelden). Klicke auf **Code → Download ZIP**. Das benötigt weder Git noch npm.
+Öffne https://github.com/postboxsr/REPAIRROOM im Browser (bei einem privaten Repository mit Deinem GitHub-Konto anmelden). Klicke auf **Code → Download ZIP**. Das benötigt weder Git noch npm.
 
 Entpacke die heruntergeladene ZIP-Datei im Downloads-Ordner. Der Ordner heißt normalerweise REPAIRROOM-main. Benenne ihn im Finder in REPAIRROOM um, damit die Befehle unten passen. Darin muss package.json liegen.
 
