@@ -2,7 +2,7 @@
 # Dedicated Ubuntu/Debian browser test site, no API/database or real payments.
 set -euo pipefail
 [[ $(id -u) == 0 ]] || { echo 'Als root starten.' >&2; exit 1; }
-artifact=1fc836ee6a69c2775c997da7be11a40ff69e2135
+artifact=498d8dd61062e128787c9175de4b94afd1273f94
 site=/var/www/repairroom-browser-demo
 conf=/etc/nginx/conf.d/repairroom-browser-demo.conf
 if [[ -e "$site" || -e "$conf" ]]; then

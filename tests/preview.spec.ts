@@ -3,13 +3,13 @@ async function prepare(page:Page,slot?:string){
  await page.goto('http://127.0.0.1:4173/REPAIRROOM/');await page.selectOption('#vehicle','compact');await page.getByRole('button',{name:'Festpreis & Termin finden'}).click();
  await expect(page.locator('.quote h2')).toContainText('129');
  const button=slot?page.getByRole('button',{name:slot,exact:true}):page.locator('.slots button').nth(2);
- await button.click();return (await button.textContent())!;
+ await button.click();return (await button.getAttribute('aria-label'))!;
 }
 async function confirm(page:Page){await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zur Demo-Zahlung'}).click();await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Demo-Zahlung & Testbuchung bestätigen'}).click();await expect(page.getByRole('heading',{level:1})).toHaveText('Testbuchung bestätigt.');}
 test('complete browser demo, back navigation, reload and cancellation without backend calls',async({page})=>{
  const apiRequests:string[]=[];page.on('request',r=>{if(r.url().includes('/api/demo'))apiRequests.push(r.url());});
  const slot=await prepare(page);await expect(page.locator('.demo')).toContainText('BROWSER-DEMO');
- await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zurück'}).click();await expect(page.locator('.selected')).toHaveText(slot);
+ await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zurück'}).click();await expect(page.locator('.selected')).toHaveAttribute('aria-label',slot);
  await confirm(page);expect(new URL(page.url()).pathname).toMatch(/^\/REPAIRROOM\/buchung\/?$/);
  await page.reload();await expect(page.getByRole('heading',{level:1})).toHaveText('Testbuchung bestätigt.');
  await page.getByRole('button',{name:'Testbuchung stornieren'}).click();await page.getByRole('button',{name:'Stornierung bestätigen'}).click();await expect(page.getByRole('heading',{level:1})).toHaveText('Testbuchung storniert.');
@@ -21,7 +21,7 @@ test('each browser has its own simulated bookings',async({page,browser})=>{
  finally{await other.close();}
 });
 test('pages, image and styles work under repository subpath',async({page})=>{
- for(const route of ['','oelwechsel/','autoglas/','unfallinstandsetzung/','aufbereitung/','kontakt/','impressum/','datenschutz/','station/','buchen/','buchung/']){
+ for(const route of ['','oelwechsel/','werkstattservice/','autoglas/','unfallinstandsetzung/','aufbereitung/','kontakt/','impressum/','datenschutz/','station/','buchen/','buchung/']){
   await page.goto('http://127.0.0.1:4173/REPAIRROOM/'+route);await expect(page.getByRole('heading',{level:1})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content',/noindex/);
  }
@@ -54,4 +54,15 @@ test('expired browser reservation cannot be paid and a new window can be selecte
  await page.evaluate(()=>{const state=JSON.parse(localStorage.getItem('repairroom-browser-demo-v1')!);const token=localStorage.getItem('rr-preview-checkout');state.bookings.find((b:{token:string})=>b.token===token).expires=new Date(Date.now()-1000).toISOString();localStorage.setItem('repairroom-browser-demo-v1',JSON.stringify(state));});
  await page.reload();await expect(page.getByText('Reservierungsfrist abgelaufen.',{exact:true})).toBeVisible();await expect(page.getByRole('button',{name:'Demo-Zahlung & Testbuchung bestätigen'})).toHaveCount(0);
  await page.getByRole('button',{name:'Neues Zeitfenster wählen'}).click();await expect(page.locator('#car')).toHaveValue('compact');await expect(page.locator('.slots button').first()).toBeVisible();
+});
+
+test('calendar switches available days and clears stale time selection',async({page})=>{
+ await prepare(page);await expect(page.locator('.selected')).toHaveCount(1);
+ const days=page.locator('.calendar-days button:not(:disabled)');await days.nth(1).click();
+ await expect(page.locator('.selected')).toHaveCount(0);await expect(page.getByRole('button',{name:'Auswahl prüfen'})).toBeDisabled();
+ await expect(page.locator('.slots button').first()).toBeVisible();await page.locator('.slots button').first().click();
+ await expect(page.getByRole('button',{name:'Auswahl prüfen'})).toBeEnabled();
+ await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zurück'}).click();
+ await expect(page.locator('.selected')).toHaveCount(1);
+ await page.screenshot({path:`test-results-preview/calendar-${test.info().project.name}.png`,fullPage:true});
 });
