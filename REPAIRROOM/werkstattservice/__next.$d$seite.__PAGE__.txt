@@ -1,0 +1,35 @@
+1:"$Sreact.fragment"
+2:"static/chunks/822-b447fe4c559243b6.js"
+3:"static/chunks/app/%5Bseite%5D/page-6d8683b6a8e7388c.js"
+4:I[441,["822","$2","487","$3"],""]
+5:"static/chunks/979-d0f50fbe7c045f00.js"
+6:"static/chunks/app/page-4332df2f6fd1f4df.js"
+7:I[9979,["822","$2","979","$5","974","$6"],"Image"]
+8:I[943,[],""]
+9:I[1331,[],""]
+15:"ViewportBoundary"
+16:I[630,[],"$15"]
+17:"MetadataBoundary"
+18:I[630,[],"$17"]
+19:"$Sreact.suspense"
+:HL["/REPAIRROOM/_next/static/css/99d751a4350ce0d9.css","style"]
+b:X
+e:X
+e:C
+f:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","section",null,{"className":"section editorial","children":[["$","span",null,{"className":"eyebrow","children":"WERKSTATT & TECHNIK · ANGEBOT IN PLANUNG"}],["$","h1",null,{"children":"Für Dein Auto geben wir alles."}],["$","p",null,{"className":"lead","children":"Vom regelmäßigen Service bis zum ungewohnten Geräusch: Wir möchten Dein Auto fit halten und Dir verständlich zeigen, was sinnvoll ist. Diese Leistungsübersicht ist ein Entwurf; das konkrete Werkstattangebot wird noch bestätigt."}],["$","div",null,{"className":"editorial-list","children":[["$","p","Inspektion & Wartung: den vorgesehenen Umfang passend zu Fahrzeug, Laufleistung und Wartungsplan abstimmen.",{"children":[["$","span",null,{"children":["0",1]}],"Inspektion & Wartung: den vorgesehenen Umfang passend zu Fahrzeug, Laufleistung und Wartungsplan abstimmen."]}],["$","p","Bremsen: Zustand prüfen und notwendige Arbeiten nachvollziehbar planen.",{"children":[["$","span",null,{"children":["0",2]}],"Bremsen: Zustand prüfen und notwendige Arbeiten nachvollziehbar planen."]}],["$","p","Reifen & Räder: Reifenwechsel, Zustand und passende Bereifung individuell klären.",{"children":[["$","span",null,{"children":["0",3]}],"Reifen & Räder: Reifenwechsel, Zustand und passende Bereifung individuell klären."]}],["$","p","Diagnose & Fahrzeugelektrik: Auffälligkeiten eingrenzen, bevor Reparaturen geplant werden.",{"children":[["$","span",null,{"children":["0",4]}],"Diagnose & Fahrzeugelektrik: Auffälligkeiten eingrenzen, bevor Reparaturen geplant werden."]}],["$","p","Klimaservice: Prüf- und Serviceumfang passend zur Anlage abstimmen.",{"children":[["$","span",null,{"children":["0",5]}],"Klimaservice: Prüf- und Serviceumfang passend zur Anlage abstimmen."]}],"$L10","$L11"]}],"$L12"]}],null,"$L13"]}],"p":"$@14","v":null,"s":"$b"}}]]
+c:[["children",{"s":{"n":"seite","t":"d","k":"werkstattservice","s":["_not-found","_global-error","buchen","buchung","station"]},"h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L8",null,{"parallelRouterKey":"children","template":["$","$L9",null,{}]}]]}],"p":"$@d","v":"$e","s":"$b"},"c":"$Qf"}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/REPAIRROOM/_next/static/css/99d751a4350ce0d9.css","precedence":"next"}]],["$","html",null,{"lang":"de","children":["$","body",null,{"children":[["$","a",null,{"className":"skip","href":"#inhalt","children":"Zum Inhalt"}],["$","div",null,{"className":"demo","children":"BROWSER-DEMO · Testdaten · Buchungen nur in diesem Browser · Keine echten Zahlungen"}],["$","header",null,{"children":[["$","$L4",null,{"className":"brand-logo","href":"/","aria-label":"REPAIRROOM – Startseite","children":["$","$L7",null,{"src":"/REPAIRROOM/repairroom-logo-draft.png","alt":"REPAIRROOM · Automotive Service · Wortmarkenentwurf","width":2173,"height":724,"sizes":"(max-width: 800px) 190px, 240px","priority":true}]}],["$","nav",null,{"aria-label":"Hauptnavigation","children":[["$","$L4",null,{"href":"/oelwechsel","children":"Ölwechsel"}],["$","$L4",null,{"href":"/werkstattservice","children":"Werkstatt"}],["$","$L4",null,{"href":"/autoglas","children":"Autoglas"}],["$","$L4",null,{"href":"/unfallinstandsetzung","children":"Unfall"}],["$","$L4",null,{"href":"/aufbereitung","children":"Aufbereitung"}]]}],["$","$L4",null,{"className":"nav-cta","href":"/buchen","children":"Online buchen →"}]]}],["$","main",null,{"id":"inhalt","children":["$","$L8",null,{"parallelRouterKey":"children","template":["$","$L9",null,{}],"notFound":[["$","section",null,{"className":"section","children":[["$","h1",null,{"children":"Hier geht es nicht weiter."}],["$","p",null,{"children":"Diese Seite wurde nicht gefunden."}],["$","$L4",null,{"className":"button","href":"/","children":"Zur Startseite"}]]}],[]]}]}],["$","footer",null,{"children":[["$","div",null,{"className":"brand-logo footer-logo","children":["$","$L7",null,{"src":"/REPAIRROOM/repairroom-logo-draft.png","alt":"REPAIRROOM · Automotive Service","width":2173,"height":724,"sizes":"240px"}]}],["$","p",null,{"children":"Eigenständiger Markenentwurf. Standort und Betriebsdaten werden noch bestätigt."}],["$","div",null,{"children":[["$","$L4",null,{"href":"/kontakt","children":"Kontakt"}],["$","$L4",null,{"href":"/impressum","children":"Impressum (Entwurf)"}],["$","$L4",null,{"href":"/datenschutz","children":"Datenschutz (Entwurf)"}],["$","$L4",null,{"href":"/buchung","children":"Demo verwalten"}]]}],["$","small",null,{"children":"© REPAIRROOM · Entwicklungsstand, kein öffentliches Buchungsangebot"}]]}]]}]}]]}],"p":"$@a","v":null,"s":"$b"},"c":"$Qc"},"h":{"r":["$","$1","h",{"children":[null,["$","$L16",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L18",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$19",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"REPAIRROOM · Dein Ölwechsel. Dein Termin."}],["$","meta","1",{"name":"description","content":"Entwicklungsdemo einer online buchbaren Ölwechselstation."}],["$","meta","2",{"name":"robots","content":"noindex, nofollow"}]]}]}],null]}],null]}],"p":"$@1a","v":null,"s":"$b"}},"a":"$@1b","u":"$@1c","b":"Fyiy0xVYTd7_3gfh7HhVS"}
+1d:I[630,[],"OutletBoundary"]
+10:["$","p","Ölwechsel ist unser eigener Online-Ablauf mit Festpreis und verfügbarem Servicefenster. Andere Werkstattarbeiten erhalten individuelle Angebote und Termine.",{"children":[["$","span",null,{"children":["0",6]}],"Ölwechsel ist unser eigener Online-Ablauf mit Festpreis und verfügbarem Servicefenster. Andere Werkstattarbeiten erhalten individuelle Angebote und Termine."]}]
+11:["$","p","Noch keine echte Anfragefunktion: Diese Demo versendet keine Werkstattanfragen. Verfügbarkeit, Preise, Ausrüstung und Betriebsdaten sind noch nicht bestätigt.",{"children":[["$","span",null,{"children":["0",7]}],"Noch keine echte Anfragefunktion: Diese Demo versendet keine Werkstattanfragen. Verfügbarkeit, Preise, Ausrüstung und Betriebsdaten sind noch nicht bestätigt."]}]
+12:["$","$L4",null,{"className":"button","href":"/","children":"Zur Startseite →"}]
+13:["$","$L1d",null,{"children":["$","$19",null,{"name":"Next.MetadataOutlet","children":"$@1e"}]}]
+b:300
+1e:null
+1c:true
+b:C
+1b:0
+d:"$undefined"
+a:"$undefined"
+1a:"$undefined"
+14:"$undefined"
