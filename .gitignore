@@ -1,0 +1,9 @@
+node_modules/
+.next/
+.demo-data/
+.env*
+!.env.example
+test-results/
+playwright-report/
+*.tsbuildinfo
+.postgres/

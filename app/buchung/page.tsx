@@ -1,0 +1,1 @@
+import Manage from '../../components/ManageBooking';export default function Page(){return <Manage/>}

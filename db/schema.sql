@@ -1,0 +1,3 @@
+-- Canonical versioned schema: migrations/001_booking_foundation.sql.
+-- Apply with npm run db:migrate (checksummed, transactionally serialized).
+-- Do not independently run this file or the superseded milestone-1 draft.

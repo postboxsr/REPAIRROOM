@@ -1,0 +1,36 @@
+{
+  "name": "repairroom",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build --webpack",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "db:up": "node scripts/local-postgres.mjs up",
+    "db:stop": "node scripts/local-postgres.mjs stop",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "tsx scripts/seed-demo.ts",
+    "db:prepare": "npm run db:up && npm run db:migrate && npm run db:seed",
+    "test:db": "tsx --test tests/db/*.test.ts",
+    "test:postgres": "REPAIRROOM_DEMO_STORAGE=postgres playwright test",
+    "dev:postgres": "REPAIRROOM_MODE=demo REPAIRROOM_DEMO_STORAGE=postgres next dev --hostname 0.0.0.0",
+    "start:postgres": "REPAIRROOM_MODE=demo REPAIRROOM_DEMO_STORAGE=postgres next start --hostname 0.0.0.0"
+  },
+  "dependencies": {
+    "next": "16.4.0",
+    "pg": "8.23.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@types/node": "^24",
+    "@types/pg": "8.23.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tsx": "4.23.15",
+    "typescript": "^5.9"
+  }
+}
