@@ -1,4 +1,4 @@
-:HL["/REPAIRROOM/_next/static/css/3d488f57bccb3ed7.css","style"]
+:HL["/REPAIRROOM/_next/static/css/cd8b68f1d06f5090.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":{"n":"seite","t":"d","k":"autoglas","s":["_not-found","_global-error","buchen","buchung","station"]},"h":96,"c":"$Q2"}]]
-0:{"b":"eXgBI7uzin17jNsGXvufv","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"s7e_OjVYvzm5jMjt-b8jw","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
