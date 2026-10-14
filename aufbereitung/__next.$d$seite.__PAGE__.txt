@@ -1,0 +1,28 @@
+1:"$Sreact.fragment"
+2:"static/chunks/822-b447fe4c559243b6.js"
+3:"static/chunks/app/%5Bseite%5D/page-6d8683b6a8e7388c.js"
+4:I[441,["822","$2","487","$3"],""]
+5:I[943,[],""]
+6:I[1331,[],""]
+d:I[630,[],"OutletBoundary"]
+e:"$Sreact.suspense"
+11:"ViewportBoundary"
+12:I[630,[],"$11"]
+13:"MetadataBoundary"
+14:I[630,[],"$13"]
+:HL["/REPAIRROOM/_next/static/css/b7ebf4e721667091.css","style"]
+8:X
+b:X
+b:C
+c:[["children",{"s":"__PAGE__","h":160,"d":{"r":["$","$1","c",{"children":[["$","section",null,{"className":"section editorial","children":[["$","span",null,{"className":"eyebrow","children":"FAHRZEUGAUFBEREITUNG"}],["$","h1",null,{"children":"Details machen den Unterschied."}],["$","p",null,{"className":"lead","children":"Innenraum, Lack und Oberflächen: Der passende Umfang richtet sich nach dem Zustand Deines Fahrzeugs und Deinen Wünschen."}],["$","div",null,{"className":"editorial-list","children":[["$","p","Geplanter Ablauf: Wunsch und Zustand klären → Leistungsumfang und Angebot → geeigneten Termin vereinbaren.",{"children":[["$","span",null,{"children":["0",1]}],"Geplanter Ablauf: Wunsch und Zustand klären → Leistungsumfang und Angebot → geeigneten Termin vereinbaren."]}],["$","p","Pakete, Preise und Bearbeitungszeiten werden erst nach Bestätigung veröffentlicht.",{"children":[["$","span",null,{"children":["0",2]}],"Pakete, Preise und Bearbeitungszeiten werden erst nach Bestätigung veröffentlicht."]}],["$","p","Die Anfragefunktion ist noch nicht angebunden. Keine echte Terminvereinbarung in dieser Demo.",{"children":[["$","span",null,{"children":["0",3]}],"Die Anfragefunktion ist noch nicht angebunden. Keine echte Terminvereinbarung in dieser Demo."]}]]}],["$","$L4",null,{"className":"button","href":"/","children":"Zur Startseite →"}]]}],null,["$","$Ld",null,{"children":["$","$e",null,{"name":"Next.MetadataOutlet","children":"$@f"}]}]]}],"p":"$@10","v":null,"s":"$8"}}]]
+9:[["children",{"s":{"n":"seite","t":"d","k":"aufbereitung","s":["_not-found","_global-error","buchen","buchung","station"]},"h":96,"d":{"r":["$","$1","c",{"children":[null,["$","$L5",null,{"parallelRouterKey":"children","template":["$","$L6",null,{}]}]]}],"p":"$@a","v":"$b","s":"$8"},"c":"$Qc"}]]
+0:{"t":{"t":{"s":"","h":80,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/REPAIRROOM/_next/static/css/b7ebf4e721667091.css","precedence":"next"}]],["$","html",null,{"lang":"de","children":["$","body",null,{"children":[["$","a",null,{"className":"skip","href":"#inhalt","children":"Zum Inhalt"}],["$","div",null,{"className":"demo","children":"BROWSER-DEMO · Testdaten · Buchungen nur in diesem Browser · Keine echten Zahlungen"}],["$","header",null,{"children":[["$","$L4",null,{"className":"wordmark","href":"/","children":["REPAIR",["$","span",null,{"children":"ROOM"}],["$","small",null,{"children":"AUTOMOTIVE SERVICE / ENTWURF"}]]}],["$","nav",null,{"aria-label":"Hauptnavigation","children":[["$","$L4",null,{"href":"/oelwechsel","children":"Ölwechsel"}],["$","$L4",null,{"href":"/autoglas","children":"Autoglas"}],["$","$L4",null,{"href":"/unfallinstandsetzung","children":"Unfall"}],["$","$L4",null,{"href":"/aufbereitung","children":"Aufbereitung"}]]}],["$","$L4",null,{"className":"nav-cta","href":"/buchen","children":"Online buchen →"}]]}],["$","main",null,{"id":"inhalt","children":["$","$L5",null,{"parallelRouterKey":"children","template":["$","$L6",null,{}],"notFound":[["$","section",null,{"className":"section","children":[["$","h1",null,{"children":"Hier geht es nicht weiter."}],["$","p",null,{"children":"Diese Seite wurde nicht gefunden."}],["$","$L4",null,{"className":"button","href":"/","children":"Zur Startseite"}]]}],[]]}]}],["$","footer",null,{"children":[["$","div",null,{"className":"wordmark","children":["REPAIRROOM",["$","small",null,{"children":"DEIN AUTO. UNSER HANDWERK."}]]}],["$","p",null,{"children":"Eigenständiger Markenentwurf. Standort und Betriebsdaten werden noch bestätigt."}],["$","div",null,{"children":[["$","$L4",null,{"href":"/kontakt","children":"Kontakt"}],["$","$L4",null,{"href":"/impressum","children":"Impressum (Entwurf)"}],["$","$L4",null,{"href":"/datenschutz","children":"Datenschutz (Entwurf)"}],["$","$L4",null,{"href":"/buchung","children":"Demo verwalten"}]]}],["$","small",null,{"children":"© REPAIRROOM · Entwicklungsstand, kein öffentliches Buchungsangebot"}]]}]]}]}]]}],"p":"$@7","v":null,"s":"$8"},"c":"$Q9"},"h":{"r":["$","$1","h",{"children":[null,["$","$L12",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","$L14",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$e",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"REPAIRROOM · Dein Ölwechsel. Dein Termin."}],["$","meta","1",{"name":"description","content":"Entwicklungsdemo einer online buchbaren Ölwechselstation."}],["$","meta","2",{"name":"robots","content":"noindex, nofollow"}]]}]}],null]}],null]}],"p":"$@15","v":null,"s":"$8"}},"a":"$@16","u":"$@17","b":"v-yTfFU8STP4FKrND4Zip"}
+f:null
+8:300
+17:true
+8:C
+16:0
+a:"$undefined"
+7:"$undefined"
+15:"$undefined"
+10:"$undefined"
