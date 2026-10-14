@@ -1,4 +1,4 @@
-:HL["/REPAIRROOM/_next/static/css/b7ebf4e721667091.css","style"]
+:HL["/REPAIRROOM/_next/static/css/3d488f57bccb3ed7.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":{"n":"seite","t":"d","k":"unfallinstandsetzung","s":["_not-found","_global-error","buchen","buchung","station"]},"h":96,"c":"$Q2"}]]
-0:{"b":"v-yTfFU8STP4FKrND4Zip","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"eXgBI7uzin17jNsGXvufv","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
