@@ -2,6 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 async function prepare(page:Page,slot?:string){
  await page.goto('http://127.0.0.1:4173/REPAIRROOM/');await page.selectOption('#vehicle','compact');await page.getByRole('button',{name:'Ölwechselpreis berechnen'}).click();
  await expect(page.locator('.quote h2')).toContainText('129');
+ await page.locator('.calendar-days button:not(:disabled)').last().click();
  const button=slot?page.getByRole('button',{name:slot,exact:true}):page.locator('.slots button').nth(2);
  await button.click();return (await button.getAttribute('aria-label'))!;
 }
@@ -81,6 +82,8 @@ test('relaunch has an immediately visible booking entry and working service card
  await page.evaluate(()=>{for(const animation of document.getAnimations()){animation.currentTime=4000;animation.pause();}});
  await page.screenshot({path:`test-results-preview/relaunch-home-${test.info().project.name}.png`,fullPage:true});
  await page.locator('.motion-hero').screenshot({path:`test-results-preview/motion-hero-${test.info().project.name}.png`});
+ await page.locator('.service-cards').screenshot({path:`test-results-preview/service-scenes-${test.info().project.name}.png`});
+ await page.locator('.booking-journey').screenshot({path:`test-results-preview/booking-scenes-${test.info().project.name}.png`});
 });
 
 test('hero animation can be paused without changing the booking form',async({page})=>{
@@ -99,4 +102,47 @@ test('reduced motion shows a complete static scene and keeps booking usable',asy
  await expect(page.locator('.car-lift')).toHaveCSS('transform','none');await expect(page.locator('.scene-service')).toHaveCSS('opacity','1');
  await expect(page.locator('.motion-toggle')).toBeHidden();await expect(page.locator('.booking-journey>li')).toHaveCount(4);
  await page.selectOption('#vehicle','compact');await page.getByRole('button',{name:'Ölwechselpreis berechnen'}).click();await expect(page.locator('.quote h2')).toContainText('129');
+});
+
+test('keyboard users can pause the scene and follow the first service action',async({page})=>{
+ await page.goto('http://127.0.0.1:4173/REPAIRROOM/');
+ const pause=page.getByRole('button',{name:'Animation pausieren'});await pause.focus();
+ await page.keyboard.press('Space');await expect(page.getByRole('button',{name:'Animation abspielen'})).toBeFocused();
+ await expect(page.locator('.scene-car')).toHaveCSS('animation-play-state','paused');
+ await page.keyboard.press('Space');await expect(page.locator('.scene-car')).toHaveCSS('animation-play-state','running');
+ await page.locator('.oil-feature a').focus();await page.keyboard.press('Tab');
+ const oil=page.locator('.service-card').first();await expect(oil).toBeFocused();
+ await expect(oil.locator('.service-oil-flow')).toHaveCSS('animation-name','rr-detail-oil');
+ await page.emulateMedia({reducedMotion:'reduce'});await expect(oil.locator('.service-oil-flow')).toHaveCSS('animation-name','none');
+ await page.keyboard.press('Enter');await expect(page).toHaveURL(/\/oelwechsel\/$/);
+});
+test('hero automatically pauses outside the viewport and resumes when visible',async({page})=>{
+ await page.goto('http://127.0.0.1:4173/REPAIRROOM/');await page.locator('.motion-frame').scrollIntoViewIfNeeded();
+ await expect(page.locator('.motion-frame')).toHaveAttribute('data-paused','false');
+ await page.locator('footer').scrollIntoViewIfNeeded();await expect(page.locator('.motion-frame')).toHaveAttribute('data-paused','true');
+ await page.locator('.motion-frame').scrollIntoViewIfNeeded();await expect(page.locator('.motion-frame')).toHaveAttribute('data-paused','false');
+});
+test('additional phone and tablet widths keep the homepage and calendar usable',async({page})=>{
+ const sizes=test.info().project.name==='preview-mobile'?[{width:320,height:740},{width:375,height:812},{width:414,height:896}]:[{width:768,height:1024},{width:1440,height:900}];
+ for(const size of sizes){
+  await page.setViewportSize(size);await page.goto('http://127.0.0.1:4173/REPAIRROOM/');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await expect(page.getByRole('button',{name:'Ölwechselpreis berechnen'})).toBeVisible();
+  await expect(page.locator('.booking-journey')).toBeVisible();
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.screenshot({path:`test-results-preview/motion-width-${size.width}.png`});
+  await page.selectOption('#vehicle','compact');await page.getByRole('button',{name:'Ölwechselpreis berechnen'}).click();
+  await expect(page.locator('.slots button').first()).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+});
+
+test('illustrated service details link to the genuine next action',async({page})=>{
+ await page.goto('http://127.0.0.1:4173/REPAIRROOM/autoglas/');
+ await expect(page.locator('.service-detail-art')).toBeVisible();
+ await expect(page.getByText('Es werden derzeit keine Anfragen versendet.',{exact:false})).toBeVisible();
+ await page.screenshot({path:`test-results-preview/autoglas-detail-${test.info().project.name}.png`,fullPage:true});
+ await page.getByRole('link',{name:'Weitere Leistungen ansehen'}).click();await expect(page).toHaveURL(/\/REPAIRROOM\/#leistungen$/);
+ await page.locator('.service-card').first().click();await page.getByRole('link',{name:'Ölwechsel-Demo starten'}).click();
+ await expect(page.locator('#car')).toBeVisible();await expect(page.locator('.progress')).toContainText('Demo-Zahlung');
 });

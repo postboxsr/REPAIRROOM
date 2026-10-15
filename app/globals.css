@@ -37,3 +37,50 @@ body:has(.motion-page){background:#171d1b}body:has(.motion-page) header{backgrou
 @media(prefers-reduced-motion:reduce){.motion-page *,.motion-page *:before,.motion-page *:after{animation:none!important;transition:none!important}.motion-toggle{display:none}.scene-car,.car-lift,.service-arm,.mini-service-person{transform:none!important;will-change:auto}.scene-service{opacity:1}.oil-drop{opacity:1}}
 /* Start inside the arrival phase so the vehicle is visible on first paint. */
 .scene-car,.car-lift,.scene-service,.service-arm{animation-delay:-4s}
+
+/* Individual services share the same people and vehicle geometry. */
+.motion-page .service-card .detailed-scene{height:155px;margin-top:8px}
+.motion-page .journey-scene{max-height:150px}
+.motion-page .service-card:hover .person-arm,.motion-page .service-card:focus-visible .person-arm{animation:rr-detail-arm 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:90% 0}
+.motion-page .service-card:hover .service-oil-flow,.motion-page .service-card:focus-visible .service-oil-flow{animation:rr-detail-oil 2.6s ease-in-out infinite}
+.motion-page .service-card:hover .service-glass-panel,.motion-page .service-card:focus-visible .service-glass-panel{animation:rr-detail-glass 3s ease-in-out infinite}
+.motion-page .service-card:hover .service-brake-tool,.motion-page .service-card:focus-visible .service-brake-tool{animation:rr-detail-brake 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:0 0}
+.motion-page .service-card:hover .service-tyre-spin,.motion-page .service-card:focus-visible .service-tyre-spin{animation:rr-detail-wheel 6s linear infinite;transform-origin:0 0}
+.motion-page .service-card:hover .service-inspection-check,.motion-page .service-card:focus-visible .service-inspection-check,.motion-page .service-card:hover .service-shine,.motion-page .service-card:focus-visible .service-shine{animation:rr-detail-highlight 3s ease-in-out infinite}
+.motion-page .service-card:hover .service-airflow,.motion-page .service-card:focus-visible .service-airflow{animation:rr-detail-air 3s ease-in-out infinite}
+.motion-page .service-card:hover .service-diagnostic-trace,.motion-page .service-card:focus-visible .service-diagnostic-trace{animation:rr-detail-highlight 2.8s ease-in-out infinite}
+.motion-page .service-card:hover .service-repair-part,.motion-page .service-card:focus-visible .service-repair-part{animation:rr-detail-part 3s ease-in-out infinite}
+.journey-illustration:hover .journey-calendar-selected{animation:rr-detail-highlight 3s ease-in-out infinite}
+.journey-illustration:hover .journey-drive-car{animation:rr-journey-drive 3.5s ease-in-out infinite}
+.motion-page .service-card:focus-visible{outline-width:3px;outline-offset:5px}
+@keyframes rr-detail-arm{0%,100%{transform:rotate(0)}50%{transform:rotate(-5deg)}}
+@keyframes rr-detail-oil{0%,100%{transform:translateY(0);opacity:.7}60%{transform:translateY(4px);opacity:1}}
+@keyframes rr-detail-glass{0%,100%{transform:translate(0,0)}50%{transform:translate(-3px,4px)}}
+@keyframes rr-detail-brake{0%,100%{transform:rotate(0)}50%{transform:rotate(-8deg)}}
+@keyframes rr-detail-wheel{to{transform:rotate(360deg)}}
+@keyframes rr-detail-highlight{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes rr-detail-air{0%,100%{transform:translateX(0);opacity:.6}50%{transform:translateX(4px);opacity:1}}
+@keyframes rr-detail-part{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes rr-journey-drive{0%,100%{transform:translate(0,0)}50%{transform:translate(7px,1px)}}
+@media(max-width:800px){.motion-page .service-card .detailed-scene{height:120px}.motion-page .service-card{min-height:330px}}
+@media(max-width:360px){.motion-page .service-card .detailed-scene{height:160px}.motion-page .service-card{min-height:330px}}
+@media(prefers-reduced-motion:reduce){.motion-page .service-card *, .motion-page .journey-illustration *{animation:none!important;transition:none!important}}
+
+/* Keep the illustrated service pages connected to the homepage. */
+.service-detail .editorial{max-width:1440px;margin:auto;padding-top:32px}
+.service-breadcrumb{display:inline-block;font-size:11px;color:#b7c8aa;margin-bottom:32px;padding:8px 0}
+.service-detail-hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,1fr);gap:7%;align-items:center}
+.service-detail h1{font-size:clamp(36px,4.5vw,66px);line-height:1.06;margin:20px 0 24px}
+.service-detail .lead{font-size:17px;color:#c0ccb6;max-width:700px}
+.service-detail-art{background:#222f24;border:1px solid #ffffff1a;border-radius:14px;padding:20px}
+.service-detail-art .detailed-scene{max-height:280px}
+.service-detail-art>p{text-align:center;font-size:8px;letter-spacing:1.5px;color:#a3b994;margin:4px 0}
+.service-detail-body{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,1fr);gap:7%;align-items:start;margin-top:30px}
+.service-detail .editorial-list{margin:0;max-width:none}
+.service-detail .editorial-list p{font-size:14px;line-height:1.8;color:#c0ccb6}
+.service-detail .editorial-list span{color:#d6ef6e}
+.service-detail-action{padding:24px;background:#263529;border:1px solid #ffffff20;border-radius:10px}
+.service-detail-action h2{font-size:27px;letter-spacing:-.8px;line-height:1.15;margin:18px 0}
+.service-detail-action>p{font-size:12px;color:#b7c8aa}
+.service-detail-action .button{font-size:12px;padding:16px}
+@media(max-width:800px){.service-detail .editorial{padding-top:24px}.service-breadcrumb{margin-bottom:22px}.service-detail-hero,.service-detail-body{grid-template-columns:1fr;gap:24px}.service-detail h1{font-size:38px}.service-detail .lead{font-size:15px}.service-detail-art{max-width:540px;width:100%;margin:auto}.service-detail-art .detailed-scene{max-height:210px}.service-detail-body{margin-top:26px}.service-detail .editorial-list p{font-size:13px}.service-detail-action{padding:22px}}

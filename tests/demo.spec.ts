@@ -37,7 +37,7 @@ test('all service and legal pages render, no horizontal overflow',async({page})=
  await page.screenshot({path:`test-results/home-${test.info().project.name}.png`,fullPage:true});
 });
 test('checkout hold resumes, keeps its deadline and can be released',async({page,request})=>{
- await page.goto('/buchen');await page.selectOption('#car','compact');await page.locator('.slots button').nth(2).click();await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zur Demo-Zahlung'}).click();await expect(page.getByTestId('hold-countdown')).toBeVisible();
+ await page.goto('/buchen');await page.selectOption('#car','compact');await page.locator('.calendar-days button:not(:disabled)').last().click();await page.locator('.slots button').nth(2).click();await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zur Demo-Zahlung'}).click();await expect(page.getByTestId('hold-countdown')).toBeVisible();
  const token=await page.evaluate(()=>localStorage.getItem('rr-checkout'));const before=await (await request.post('/api/demo',{data:{action:'resume',token}})).json();
  await page.reload();await expect(page.getByRole('heading',{name:'Online bezahlen – simuliert.'})).toBeVisible();const after=await (await request.post('/api/demo',{data:{action:'resume',token}})).json();expect(after.id).toBe(before.id);expect(after.expires).toBe(before.expires);
  await page.getByRole('button',{name:'Zurück'}).click();await expect(page.getByRole('heading',{name:'Alles auf einen Blick.'})).toBeVisible();const released=await (await request.post('/api/demo',{data:{action:'resume',token}})).json();expect(released.status).toBe('cancelled');
