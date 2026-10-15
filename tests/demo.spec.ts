@@ -1,7 +1,7 @@
 import {localPool} from '../lib/booking/connection';
 import {test,expect} from '@playwright/test';
 test('guest booking, back navigation, simulated payment and cancellation',async({page})=>{
- await page.goto('/');await expect(page.getByRole('heading',{level:1})).toContainText('Dein Ölwechsel.');
+ await page.goto('/');await expect(page.getByRole('heading',{level:1})).toContainText('Günstig.');
  await page.selectOption('#vehicle','touring');await page.getByRole('button',{name:'Festpreis & Termin finden'}).click();
  await expect(page.locator('#car')).toHaveValue('touring');await expect(page.locator('.quote h2')).toContainText('159');
  await page.locator('.slots button').first().click();const slot=await page.locator('.selected').getAttribute('aria-label');
@@ -28,12 +28,12 @@ test('server owns price, rejects unsupported vehicles and concurrent duplicate b
  const after=await (await request.get('/api/demo')).json();expect(after.slots).toContain(data.slot);
 });
 test('all service and legal pages render, no horizontal overflow',async({page})=>{
- for(const route of ['/','/oelwechsel','/werkstattservice','/autoglas','/unfallinstandsetzung','/aufbereitung','/kontakt','/impressum','/datenschutz','/station','/buchen','/buchung']){
+ for(const route of ['/','/oelwechsel','/bremsen','/inspektion','/reifen','/klimaservice','/diagnose','/werkstattservice','/autoglas','/unfallinstandsetzung','/aufbereitung','/kontakt','/impressum','/datenschutz','/station','/buchen','/buchung']){
  await page.goto(route);await expect(page.getByRole('heading',{level:1})).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
  }
  await page.goto('/');await page.getByText('Brauche ich ein Kundenkonto?',{exact:true}).click();await expect(page.getByText('Nein. Der geplante Ablauf ist eine Gastbuchung.',{exact:false})).toBeVisible();
- await page.locator('.workshop img').scrollIntoViewIfNeeded();await expect.poll(()=>page.locator('.workshop img').evaluate((el)=>(el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+ await page.locator('.hero-backdrop img').scrollIntoViewIfNeeded();await expect.poll(()=>page.locator('.hero-backdrop img').evaluate((el)=>(el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
  await page.screenshot({path:`test-results/home-${test.info().project.name}.png`,fullPage:true});
 });
 test('checkout hold resumes, keeps its deadline and can be released',async({page,request})=>{

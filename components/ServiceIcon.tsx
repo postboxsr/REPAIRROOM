@@ -1,0 +1,4 @@
+export default function ServiceIcon({kind}:{kind:string}){
+ const paths:Record<string,string>={oil:'M8 3h8v5l4 5v7H4v-7l4-5V3Zm0 5h8M8 15h8',glass:'M3 18 6 5h12l3 13H3Zm9-12-2 5 4 2-3 5',brakes:'M12 3a9 9 0 1 0 9 9M12 8a4 4 0 1 0 4 4M16 3h5v9h-5V3Z',check:'M7 4h10v17H4V4h3Zm1-2h8v5H8V2Zm0 11 2 2 5-5',tyre:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 5a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0-5v5m0 8v5M3 12h5m8 0h5',climate:'M12 2v20M3 7l18 10M3 17 21 7M9 3l3 3 3-3M9 21l3-3 3 3',diagnosis:'M3 5h18v12H3V5Zm4 7h3l2-4 2 7 2-3h2M8 21h8m-4-4v4',repair:'M4 17 17 4m-2-1 6 6M3 21l-1-4 3-3 5 5-3 3-4-1Z',shine:'M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z'};
+ return <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[kind]||paths.repair}/></svg>;
+}

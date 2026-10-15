@@ -21,15 +21,15 @@ test('each browser has its own simulated bookings',async({page,browser})=>{
  finally{await other.close();}
 });
 test('pages, image and styles work under repository subpath',async({page})=>{
- for(const route of ['','oelwechsel/','werkstattservice/','autoglas/','unfallinstandsetzung/','aufbereitung/','kontakt/','impressum/','datenschutz/','station/','buchen/','buchung/']){
+ for(const route of ['','oelwechsel/','bremsen/','inspektion/','reifen/','klimaservice/','diagnose/','werkstattservice/','autoglas/','unfallinstandsetzung/','aufbereitung/','kontakt/','impressum/','datenschutz/','station/','buchen/','buchung/']){
   await page.goto('http://127.0.0.1:4173/REPAIRROOM/'+route);await expect(page.getByRole('heading',{level:1})).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content',/noindex/);
  }
  await page.goto('http://127.0.0.1:4173/REPAIRROOM/');if(test.info().project.name==='preview-mobile')await expect(page.locator('#vehicle')).toBeInViewport();
  await page.screenshot({path:`test-results-preview/${test.info().project.name}-first-screen.png`});
  await expect.poll(()=>page.locator('header .brand-logo img').evaluate(e=>(e as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
- await page.locator('.workshop img').scrollIntoViewIfNeeded();await expect.poll(()=>page.locator('.workshop img').evaluate(e=>(e as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
- expect(await page.locator('.workshop img').getAttribute('src')).toContain('/REPAIRROOM/workshop-concept.png');
+ await page.locator('.hero-backdrop img').scrollIntoViewIfNeeded();await expect.poll(()=>page.locator('.hero-backdrop img').evaluate(e=>(e as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+ expect(await page.locator('.hero-backdrop img').getAttribute('src')).toContain('/REPAIRROOM/workshop-concept.png');
  expect(await page.locator('.demo').evaluate(e=>getComputedStyle(e).backgroundColor)).toBe('rgb(37, 39, 36)');
  await page.screenshot({path:`test-results-preview/${test.info().project.name}.png`,fullPage:true});
 });
@@ -65,4 +65,18 @@ test('calendar switches available days and clears stale time selection',async({p
  await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zurück'}).click();
  await expect(page.locator('.selected')).toHaveCount(1);
  await page.screenshot({path:`test-results-preview/calendar-${test.info().project.name}.png`,fullPage:true});
+});
+
+test('relaunch has an immediately visible booking entry and working service cards',async({page})=>{
+ await page.goto('http://127.0.0.1:4173/REPAIRROOM/');
+ await expect(page.getByRole('heading',{level:1})).toContainText('Günstig.');
+ const cta=page.getByRole('button',{name:'Festpreis & Termin finden'});await expect(cta).toBeVisible();
+ const bounds=await cta.boundingBox();expect(bounds!.y+bounds!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
+ await expect(page.locator('.service-card')).toHaveCount(9);
+ for(const route of ['bremsen','inspektion','reifen','klimaservice','diagnose']){
+  await page.locator(`.service-card[href$="/${route}/"]`).click();await expect(page.getByRole('heading',{level:1})).toBeVisible();await expect(page.locator('.eyebrow').first()).toContainText('ANGEBOT IN PLANUNG');await page.goBack();
+ }
+ await page.getByText('Welche Zahlungsmethoden sind geplant?',{exact:true}).click();
+ await expect(page.getByText('Apple Pay, Kreditkarte und eine geeignete Bankdirektzahlung',{exact:false})).toBeVisible();
+ await page.screenshot({path:`test-results-preview/relaunch-home-${test.info().project.name}.png`,fullPage:true});
 });
