@@ -1,6 +1,6 @@
 import {test,expect,type Page} from '@playwright/test';
 async function prepare(page:Page,slot?:string){
- await page.goto('http://127.0.0.1:4173/REPAIRROOM/');await page.selectOption('#vehicle','compact');await page.getByRole('button',{name:'Festpreis & Termin finden'}).click();
+ await page.goto('http://127.0.0.1:4173/REPAIRROOM/');await page.selectOption('#vehicle','compact');await page.getByRole('button',{name:'Ölwechselpreis berechnen'}).click();
  await expect(page.locator('.quote h2')).toContainText('129');
  const button=slot?page.getByRole('button',{name:slot,exact:true}):page.locator('.slots button').nth(2);
  await button.click();return (await button.getAttribute('aria-label'))!;
@@ -28,8 +28,8 @@ test('pages, image and styles work under repository subpath',async({page})=>{
  await page.goto('http://127.0.0.1:4173/REPAIRROOM/');if(test.info().project.name==='preview-mobile')await expect(page.locator('#vehicle')).toBeInViewport();
  await page.screenshot({path:`test-results-preview/${test.info().project.name}-first-screen.png`});
  await expect.poll(()=>page.locator('header .brand-logo img').evaluate(e=>(e as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
- await page.locator('.hero-backdrop img').scrollIntoViewIfNeeded();await expect.poll(()=>page.locator('.hero-backdrop img').evaluate(e=>(e as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
- expect(await page.locator('.hero-backdrop img').getAttribute('src')).toContain('/REPAIRROOM/workshop-concept.png');
+ await expect(page.locator('.workshop-scene')).toBeVisible();
+ await expect(page.locator('.motion-page img')).toHaveCount(0);
  expect(await page.locator('.demo').evaluate(e=>getComputedStyle(e).backgroundColor)).toBe('rgb(37, 39, 36)');
  await page.screenshot({path:`test-results-preview/${test.info().project.name}.png`,fullPage:true});
 });
@@ -69,8 +69,8 @@ test('calendar switches available days and clears stale time selection',async({p
 
 test('relaunch has an immediately visible booking entry and working service cards',async({page})=>{
  await page.goto('http://127.0.0.1:4173/REPAIRROOM/');
- await expect(page.getByRole('heading',{level:1})).toContainText('Günstig.');
- const cta=page.getByRole('button',{name:'Festpreis & Termin finden'});await expect(cta).toBeVisible();
+ await expect(page.getByRole('heading',{level:1})).toContainText('FAST SERVICE.');
+ const cta=page.getByRole('button',{name:'Ölwechselpreis berechnen'});await expect(cta).toBeVisible();
  const bounds=await cta.boundingBox();expect(bounds!.y+bounds!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
  await expect(page.locator('.service-card')).toHaveCount(9);
  for(const route of ['bremsen','inspektion','reifen','klimaservice','diagnose']){
@@ -78,5 +78,25 @@ test('relaunch has an immediately visible booking entry and working service card
  }
  await page.getByText('Welche Zahlungsmethoden sind geplant?',{exact:true}).click();
  await expect(page.getByText('Apple Pay, Kreditkarte und eine geeignete Bankdirektzahlung',{exact:false})).toBeVisible();
+ await page.evaluate(()=>{for(const animation of document.getAnimations()){animation.currentTime=4000;animation.pause();}});
  await page.screenshot({path:`test-results-preview/relaunch-home-${test.info().project.name}.png`,fullPage:true});
+ await page.locator('.motion-hero').screenshot({path:`test-results-preview/motion-hero-${test.info().project.name}.png`});
+});
+
+test('hero animation can be paused without changing the booking form',async({page})=>{
+ await page.goto('http://127.0.0.1:4173/REPAIRROOM/');
+ const toggle=page.getByRole('button',{name:'Animation pausieren'});await toggle.scrollIntoViewIfNeeded();
+ await expect(page.locator('.motion-frame')).toHaveAttribute('data-paused','false');
+ await expect(page.locator('.scene-car')).toHaveCSS('animation-play-state','running');
+ await toggle.click();await expect(page.getByRole('button',{name:'Animation abspielen'})).toHaveAttribute('aria-pressed','true');
+ await expect(page.locator('.scene-car')).toHaveCSS('animation-play-state','paused');
+ await page.getByRole('button',{name:'Animation abspielen'}).click();await expect(page.locator('.scene-car')).toHaveCSS('animation-play-state','running');
+ await page.selectOption('#vehicle','sport');await page.getByRole('button',{name:'Ölwechselpreis berechnen'}).click();await expect(page.locator('.quote h2')).toContainText('189');
+});
+test('reduced motion shows a complete static scene and keeps booking usable',async({page})=>{
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto('http://127.0.0.1:4173/REPAIRROOM/');
+ await expect(page.locator('.workshop-scene')).toBeVisible();await expect(page.locator('.scene-car')).toHaveCSS('animation-name','none');
+ await expect(page.locator('.car-lift')).toHaveCSS('transform','none');await expect(page.locator('.scene-service')).toHaveCSS('opacity','1');
+ await expect(page.locator('.motion-toggle')).toBeHidden();await expect(page.locator('.booking-journey>li')).toHaveCount(4);
+ await page.selectOption('#vehicle','compact');await page.getByRole('button',{name:'Ölwechselpreis berechnen'}).click();await expect(page.locator('.quote h2')).toContainText('129');
 });

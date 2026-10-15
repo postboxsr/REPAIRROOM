@@ -72,7 +72,6 @@ try {
     ['ENTWICKLUNGSDEMO · Testdaten · Keine echten Termine oder Zahlungen', 'BROWSER-DEMO · Testdaten · Buchungen nur in diesem Browser · Keine echten Zahlungen'],
     ['src="/repairroom-logo-draft.png"', `src="${basePath}/repairroom-logo-draft.png"`],
   ]);
-  await transform('app/page.tsx', [["src=\"/workshop-concept.png\"", `src="${basePath}/workshop-concept.png"`]]);
   await transform('app/globals.css', [["@import url('/fonts.css');", `@import url('${basePath}/fonts.css');`]]);
   await transform('app/[seite]/page.tsx', [
     ['Die lokale Demo speichert Fahrzeugauswahl und Verwaltungs-Token im Session Storage des Browsers. Buchungen liegen im lokalen Verzeichnis .demo-data.', 'Die Browser-Demo speichert Fahrzeugauswahl und Verwaltungs-Token im Session Storage; Testbuchungen liegen im Local Storage dieses Browsers. Der Verwaltungslink funktioniert nur im selben Browser. Beim Löschen der Websitedaten gehen die Testbuchungen verloren.'],

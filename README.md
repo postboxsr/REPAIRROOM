@@ -105,3 +105,6 @@ public/workshop-concept.png wurde am 14.10.2026 mit dem OpenAI-Bildgenerator aus
 Siehe REQUIREMENTS.md für den vollständigen Auftrag und PROJECT_STATUS.md für Ergebnisse und nächste Schritte.
 
 Checkout-API (nur Demo-Modus): POST /api/demo mit reserve/resume/release/confirm. PostgreSQL nutzt das transaktionale Repository, Token-Hashing und idempotente Simulationsereignisse; die lokale Dateidemo verwendet eigene .hold.json-Dateien und eine Prozesswarteschlange. Dateidemo ist weiterhin nicht für Mehrinstanz-Livebetrieb geeignet. Der statische Export bildet denselben Bedienablauf im Browser nach, ohne serverseitige Garantie. Eine echte Zahlungsintegration muss bestätigte Anbieterereignisse prüfen und eine getrennte Erstattungs-/Abbruchregel erhalten.
+
+## Animierter Designentwurf
+Auf `design/animated-fast-service` liegt die neue illustrierte Startseite mit eigener SVG-Szene, gesichtslosen Figuren, ruhiger CSS-Animation, Pause und Unterstützung reduzierter Bewegung. Kein Deployment auf den bestehenden Testserver. Dokumentation und nächste Schritte: [ANIMATION_DESIGN.md](ANIMATION_DESIGN.md); Screenshots in `review/motion/`. Builds und Startbefehle bleiben gleich, es gibt keine zusätzliche Animationsabhängigkeit.

@@ -1,8 +1,8 @@
 import {localPool} from '../lib/booking/connection';
 import {test,expect} from '@playwright/test';
 test('guest booking, back navigation, simulated payment and cancellation',async({page})=>{
- await page.goto('/');await expect(page.getByRole('heading',{level:1})).toContainText('Günstig.');
- await page.selectOption('#vehicle','touring');await page.getByRole('button',{name:'Festpreis & Termin finden'}).click();
+ await page.goto('/');await expect(page.getByRole('heading',{level:1})).toContainText('FAST SERVICE.');
+ await page.selectOption('#vehicle','touring');await page.getByRole('button',{name:'Ölwechselpreis berechnen'}).click();
  await expect(page.locator('#car')).toHaveValue('touring');await expect(page.locator('.quote h2')).toContainText('159');
  await page.locator('.slots button').first().click();const slot=await page.locator('.selected').getAttribute('aria-label');
  await page.getByRole('button',{name:'Auswahl prüfen'}).click();await page.getByRole('button',{name:'Zurück'}).click();
@@ -33,7 +33,7 @@ test('all service and legal pages render, no horizontal overflow',async({page})=
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
  }
  await page.goto('/');await page.getByText('Brauche ich ein Kundenkonto?',{exact:true}).click();await expect(page.getByText('Nein. Der geplante Ablauf ist eine Gastbuchung.',{exact:false})).toBeVisible();
- await page.locator('.hero-backdrop img').scrollIntoViewIfNeeded();await expect.poll(()=>page.locator('.hero-backdrop img').evaluate((el)=>(el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+ await expect(page.locator('.workshop-scene')).toBeVisible();
  await page.screenshot({path:`test-results/home-${test.info().project.name}.png`,fullPage:true});
 });
 test('checkout hold resumes, keeps its deadline and can be released',async({page,request})=>{
